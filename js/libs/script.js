@@ -63,6 +63,10 @@
     var audio;
     var audioMuerte;
     var audioBonus=new Audio('/assets/Music/Bonus3.mp3');
+    var audioBonusEscudo=new Audio('/assets/Music/Bonus2.mp3');
+    var audioPerjudica=new Audio('/assets/Music/Damage1.mp3');
+    var audioBonusx2=new Audio('/assets/Music/Bonusx2.mp3');
+
     // alert(nivelSeleccionado);
     // alert(dificultad);
 
@@ -386,11 +390,13 @@
             var collisionx2 = Jugador1BB.intersectsBox(ElementBBx2);
             var collision2x2 = Jugador2BB.intersectsBox(ElementBBx2);
             if(collisionx2){
+                audioBonusx2.play();
                 jugador1.puntosDobles=true;
                 scene.remove(puntosDobles.modelo);
                 //alert('jugador1');
             }
             if(collision2x2){
+                audioBonusx2.play();
                 jugador2.puntosDobles=true;
                 scene.remove(puntosDobles.modelo);
                 //alert('jugador2');
@@ -402,11 +408,14 @@
             var collisionInven = Jugador1BB.intersectsBox(ElementBBInven);
             var collision2Inven = Jugador2BB.intersectsBox(ElementBBInven);
             if(collisionInven){
+                // audioBonusx2.currentTime=0.3;
+                audioBonusEscudo.play();
                 jugador1.invencibilidad=true;
                 scene.remove(invencibilidad.modelo);
                 //alert('jugador1');
             }
             if(collision2Inven){
+                audioBonusEscudo.currentTime=0.3;
                 jugador2.invencibilidad=true;
                 scene.remove(invencibilidad.modelo);
                 //alert('jugador2');
@@ -418,12 +427,14 @@
             var collisionQuitar = Jugador1BB.intersectsBox(ElementBBQuitar);
             var collision2Quitar = Jugador2BB.intersectsBox(ElementBBQuitar);
             if(collisionQuitar){
+                audioPerjudica.play();
                 jugador1.puntuacion=0;
                 divScore.innerText= jugador1.puntuacion;
                 scene.remove(invencibilidad.modelo);
                 //alert('jugador1');
             }
             if(collision2Quitar){
+                audioPerjudica.play();
                 jugador2.puntuacion=0;
                 divScore2.innerText= jugador2.puntuacion;
                 scene.remove(invencibilidad.modelo);
@@ -527,6 +538,7 @@
 
         jugador1.invencibilidad=true;
         jugador2.invencibilidad=true;
+
         for(let i=0; i<35;i++){
             this._spawnObstacle(-gridLimit*2, divisions%80);
         }

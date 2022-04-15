@@ -1,6 +1,6 @@
 const audio = new Audio("/assets/Music/PantallaInicio.mp3");
 audio.play(); 
- 
+audio.loop=true;
 // const btnMusic = document.getElementById("btnMusic");
 
 // btn.addEventListener("click", function () {
