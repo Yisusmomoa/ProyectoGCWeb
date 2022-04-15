@@ -129,6 +129,9 @@ body{
     margin-bottom: 3rem;
 }
 
+a{
+    text-decoration: none;
+}
 
 #start-button,
 #replay-button{

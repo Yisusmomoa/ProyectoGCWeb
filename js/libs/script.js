@@ -1,4 +1,5 @@
 
+
     var scene;
 	var controls;
 	var objects = [];
@@ -57,7 +58,11 @@
     var nivelSeleccionado=localStorage.getItem("Nivel");;
     var dificultad=localStorage.getItem("Dificultad");
     //pantalla inicio
-
+    
+    //musica
+    var audio;
+    var audioMuerte;
+    var audioBonus=new Audio('/assets/Music/Bonus3.mp3');
     // alert(nivelSeleccionado);
     // alert(dificultad);
 
@@ -73,6 +78,7 @@
         //     scene.add(modeloRoca.modelo);
         // });
 
+         
 		setupScene();
         
         loadOBJWithMTL('/assets/Objetos/x2/',"untitled.obj",
@@ -147,6 +153,8 @@
                     
                     scene.add(objetoCargado);
                 });
+                audio= new Audio("/assets/Music/Nivel1.mp3");
+                audio.play();
             break;
             case "Nivel2":
                 loadOBJWithMTL("../assets/Lightning Loop Cross/","model.obj",
@@ -157,6 +165,9 @@
                     
                     scene.add(objetoCargado);
                 });
+                audio= new Audio("/assets/Music/Nivel2.mp3");
+                audio.currentTime=25;
+                audio.play();
             break;
             case "Nivel3":
                 loadOBJWithMTL("../assets/WarpStone Warp Tunnel/",
@@ -169,6 +180,9 @@
                     escenario=objetoCargado.clone();
                     scene.add(escenario);
                 });
+                audio= new Audio("/assets/Music/Nivel3.mp3");
+                audio.currentTime=25;
+                audio.play();
             break;
         }
         
@@ -315,11 +329,17 @@
 
             if (collision) {
                 if(!jugador1.invencibilidad){
+                    audio.pause();
+                    audioMuerte= new Audio("/assets/Music/Bonk2.mp3");
+                    audioMuerte.play();
                     gameOver(jugador2);
                 }
             }
             else if(collision2){
                 if(!jugador2.invencibilidad){
+                    audio.pause();
+                    audioMuerte= new Audio("/assets/Music/Bonk2.mp3");
+                    audioMuerte.play();
                     gameOver(jugador1);
                 }
             }
@@ -334,6 +354,8 @@
             var collision2 = Jugador2BB.intersectsBox(ElementBB);
 
             if (collision) {
+                audioBonus.currentTime=0.3;
+                audioBonus.play();
                 if(jugador1.puntosDobles){
                     jugador1.puntuacion+=element.userData.price*2;
                 }
@@ -345,6 +367,8 @@
                 scene.remove(element);
             }
             if(collision2){
+                audioBonus.currentTime=0.3;
+                audioBonus.play();
                 if(jugador2.puntosDobles){
                     jugador2.puntuacion+=element.userData.price*2;
                 }
@@ -502,6 +526,7 @@
 		scene.add(skydome);
 
         jugador1.invencibilidad=true;
+        jugador2.invencibilidad=true;
         for(let i=0; i<35;i++){
             this._spawnObstacle(-gridLimit*2, divisions%80);
         }

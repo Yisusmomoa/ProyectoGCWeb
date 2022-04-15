@@ -1,5 +1,5 @@
-// const audio = new Audio("/assets/Music/PantallaInicio.mp3");
-// audio.play(); 
+const audio = new Audio("/assets/Music/PantallaInicio.mp3");
+audio.play(); 
  
 // const btnMusic = document.getElementById("btnMusic");
 
