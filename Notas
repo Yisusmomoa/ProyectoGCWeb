@@ -1,0 +1,32 @@
+Escenario 1 -> Retro
+Escenario 2 -> Marte
+Escenario 3 -> 
+
+
+
+Tareas
+
+CREATE TABLE GoogleUser(
+	IdGoogleUser varchar(255),
+    IdGoogleUsers_usuariosFK int,
+    CONSTRAINT PKGoogleUser
+	primary key(IdGoogleUser),
+CONSTRAINT FKIdUsuario_google
+	foreign key (IdGoogleUsers_usuariosFK) references Usuario(IdUsuario)
+);
+
+
+
+CREATE TABLE GoogleUser(
+	IdGoogleUser varchar(255),
+    imgUser mediumblob,
+    CONSTRAINT PKGoogleUser
+	primary key(IdGoogleUser)
+);
+
+create table puntuaciones(
+    idPuntuación int primary key,
+    puntuacion varchar(255),
+    fechaPuntuacion timestamp
+
+);
