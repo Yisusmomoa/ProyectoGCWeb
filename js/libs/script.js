@@ -1,5 +1,3 @@
-
-
     var scene;
 	var controls;
 	var objects = [];
@@ -158,6 +156,7 @@
                     scene.add(objetoCargado);
                 });
                 audio= new Audio("/assets/Music/Nivel1.mp3");
+                audio.volume=localStorage.getItem("RangeMusic")/10;
                 audio.play();
             break;
             case "Nivel2":
@@ -171,6 +170,7 @@
                 });
                 audio= new Audio("/assets/Music/Nivel2.mp3");
                 audio.currentTime=25;
+                audio.volume=localStorage.getItem("RangeMusic")/10;
                 audio.play();
             break;
             case "Nivel3":
@@ -186,6 +186,7 @@
                 });
                 audio= new Audio("/assets/Music/Nivel3.mp3");
                 audio.currentTime=25;
+                audio.volume=localStorage.getItem("RangeMusic")/10;
                 audio.play();
             break;
         }
@@ -335,6 +336,8 @@
                 if(!jugador1.invencibilidad){
                     audio.pause();
                     audioMuerte= new Audio("/assets/Music/Bonk2.mp3");
+                    audioMuerte.volume=localStorage.getItem("RangeEfects")/10;
+
                     audioMuerte.play();
                     gameOver(jugador2);
                 }
@@ -343,6 +346,7 @@
                 if(!jugador2.invencibilidad){
                     audio.pause();
                     audioMuerte= new Audio("/assets/Music/Bonk2.mp3");
+                    audioMuerte.volume=localStorage.getItem("RangeEfects")/10;
                     audioMuerte.play();
                     gameOver(jugador1);
                 }
@@ -359,6 +363,7 @@
 
             if (collision) {
                 audioBonus.currentTime=0.3;
+                audioBonus.volume=localStorage.getItem("RangeEfects")/10;
                 audioBonus.play();
                 if(jugador1.puntosDobles){
                     jugador1.puntuacion+=element.userData.price*2;
@@ -372,6 +377,7 @@
             }
             if(collision2){
                 audioBonus.currentTime=0.3;
+                audioBonus.volume=localStorage.getItem("RangeEfects")/10;
                 audioBonus.play();
                 if(jugador2.puntosDobles){
                     jugador2.puntuacion+=element.userData.price*2;
@@ -390,12 +396,14 @@
             var collisionx2 = Jugador1BB.intersectsBox(ElementBBx2);
             var collision2x2 = Jugador2BB.intersectsBox(ElementBBx2);
             if(collisionx2){
+                audioBonusx2.volume=localStorage.getItem("RangeEfects")/10;
                 audioBonusx2.play();
                 jugador1.puntosDobles=true;
                 scene.remove(puntosDobles.modelo);
                 //alert('jugador1');
             }
             if(collision2x2){
+                audioBonusx2.volume=localStorage.getItem("RangeEfects")/10;
                 audioBonusx2.play();
                 jugador2.puntosDobles=true;
                 scene.remove(puntosDobles.modelo);
@@ -409,12 +417,14 @@
             var collision2Inven = Jugador2BB.intersectsBox(ElementBBInven);
             if(collisionInven){
                 // audioBonusx2.currentTime=0.3;
+                audioBonusEscudo.volume=localStorage.getItem("RangeEfects")/10;
                 audioBonusEscudo.play();
                 jugador1.invencibilidad=true;
                 scene.remove(invencibilidad.modelo);
                 //alert('jugador1');
             }
             if(collision2Inven){
+                audioBonusEscudo.volume=localStorage.getItem("RangeEfects")/10;
                 audioBonusEscudo.currentTime=0.3;
                 jugador2.invencibilidad=true;
                 scene.remove(invencibilidad.modelo);
@@ -427,6 +437,7 @@
             var collisionQuitar = Jugador1BB.intersectsBox(ElementBBQuitar);
             var collision2Quitar = Jugador2BB.intersectsBox(ElementBBQuitar);
             if(collisionQuitar){
+                audioPerjudica.volume=localStorage.getItem("RangeEfects")/10;
                 audioPerjudica.play();
                 jugador1.puntuacion=0;
                 divScore.innerText= jugador1.puntuacion;
@@ -434,6 +445,7 @@
                 //alert('jugador1');
             }
             if(collision2Quitar){
+                audioPerjudica.volume=localStorage.getItem("RangeEfects")/10;
                 audioPerjudica.play();
                 jugador2.puntuacion=0;
                 divScore2.innerText= jugador2.puntuacion;

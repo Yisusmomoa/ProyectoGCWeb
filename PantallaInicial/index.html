@@ -159,15 +159,16 @@
                 data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
+                    
                     <label for="customRange1" 
-                    class="form-label">Musica</label>
-                    <input type="range" max="10" min="0"
-                    class="form-range" id="customRange1">
-                    <label for="customRange1" 
-                    class="form-label">Efectos</label>
+                    class="form-label">Musica: <div id="ValorMusica">5</div></label>
+                    <input type="range" max="10" min="1" step="1"
+                    class="form-range" id="customRange1" value="5">
+                    <label for="customRange2" 
+                    class="form-label">Efectos: <div id="ValorEfectos">5</div></label>
                     <input type="range" 
-                    class="form-range" max="10" min="0" 
-                    id="customRange2">
+                    class="form-range" max="10" min="1" 
+                    step="1" id="customRange2" value="5">
                 </div>
                 <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
