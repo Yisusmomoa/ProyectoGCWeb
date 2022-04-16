@@ -101,15 +101,17 @@ window.onload=function(){
   var storageMusicLevel,storageEfectsLevel;
 
   inputRangeMusic.addEventListener("input", function() {
+    audio.play();
     document.getElementById("ValorMusica").innerText = inputRangeMusic.value;
     localStorage.setItem("RangeMusic",inputRangeMusic.value);
     audio.volume=localStorage.getItem("RangeMusic")/10;
   }, false);
   
   inputRangeEfects.addEventListener("input", function() {
+    audio.play();
     document.getElementById("ValorEfectos").innerText = inputRangeEfects.value;
     localStorage.setItem("RangeEfects",inputRangeEfects.value);
-    
+
   }, false);
 
   //localStorage

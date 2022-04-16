@@ -146,7 +146,7 @@
        
         switch (nivelSeleccionado) {
             case "Nivel1":
-                loadOBJWithMTL("assets/Terrain2/","mpmap2.obj",
+                loadOBJWithMTL("/assets/Terrain2/","mpmap2.obj",
                 "mpmap2.mtl",(objetoCargado)=>{
                     objetoCargado.position = new THREE.Vector3(0,0,0);
                     objetoCargado.position.y=-70;
@@ -192,7 +192,7 @@
         }
         
 
-        loadOBJWithMTL("assets/Arwing/",
+        loadOBJWithMTL("/assets/Arwing/",
         "Arwing.obj","Arwing.mtl",(objetoCargado)=>{
             objetoCargado.position = new THREE.Vector3(0,0,0);
             objetoCargado.position.z=-4;
@@ -205,7 +205,7 @@
 
 		});
 
-        loadOBJWithMTL("assets/Black Rose/","BlackRose.obj",
+        loadOBJWithMTL("/assets/Black Rose/","BlackRose.obj",
         "BlackRose.mtl",(objetoCargado)=>{
             objetoCargado.position = new THREE.Vector3(0,0,0);
             objetoCargado.position.z=-4;
@@ -216,6 +216,7 @@
             
             scene.add(jugador2.modelo);
 		});
+
         document.addEventListener('keydown', (event) => {
             const keyName = event.key;//p
             if(keyName=="p"){
@@ -543,19 +544,19 @@
 
         var geometry = new THREE.SphereGeometry(3000, 60, 40);
 		var material = new THREE.MeshBasicMaterial();
-		material.map = THREE.ImageUtils.loadTexture("/assets/SkyDome2.jpg");
+		material.map = THREE.ImageUtils.loadTexture("/assets/SkyDome4.jpg");
 		material.side = THREE.BackSide;
 		var skydome = new THREE.Mesh(geometry, material);
 		scene.add(skydome);
 
-        jugador1.invencibilidad=true;
+        // jugador1.invencibilidad=true;
         jugador2.invencibilidad=true;
 
-        for(let i=0; i<35;i++){
+        for(let i=0; i<30;i++){
             this._spawnObstacle(-gridLimit*2, divisions%80);
         }
 
-        for(let i=0; i<65;i++){
+        for(let i=0; i<85;i++){
             this._spawnBonus(-gridLimit*2, divisions%80);
         }
         pantallaPausa=document.getElementById('pantallaPausa')
