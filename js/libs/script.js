@@ -55,6 +55,7 @@
     //pantalla inicio
     var nivelSeleccionado=localStorage.getItem("Nivel");;
     var dificultad=localStorage.getItem("Dificultad");
+    var modoJuego=localStorage.getItem("ModoJuego");
     //pantalla inicio
     
     //musica
@@ -80,20 +81,33 @@
         //     scene.add(modeloRoca.modelo);
         // });
 
-         
-		setupScene();
+        setupScene();
         
-        loadOBJWithMTL('/assets/Objetos/x2/',"untitled.obj",
-            "untitled.mtl",(objetoCargado)=>{
-            objetoCargado.position = new THREE.Vector3(0,0,0);
-            objetoCargado.position.z=-250;
-            objetoCargado.scale.x=5;
-            objetoCargado.scale.y=5;
-            objetoCargado.scale.z=5;
-            puntosDobles.modelo=objetoCargado.clone();
-            modeloCargadoPuntosDobles=true;
-            scene.add(puntosDobles.modelo);
-		});
+        if(modoJuego=="Puntos"){
+            loadOBJWithMTL('/assets/Objetos/x2/',"untitled.obj",
+                "untitled.mtl",(objetoCargado)=>{
+                objetoCargado.position = new THREE.Vector3(0,0,0);
+                objetoCargado.position.z=-250;
+                objetoCargado.scale.x=5;
+                objetoCargado.scale.y=5;
+                objetoCargado.scale.z=5;
+                puntosDobles.modelo=objetoCargado.clone();
+                modeloCargadoPuntosDobles=true;
+                scene.add(puntosDobles.modelo);
+            });
+            loadOBJWithMTL('/assets/Objetos/Cosmo Shield/',"ShieldBad.obj",
+            "ShieldBad.mtl",(objetoCargado)=>{
+                objetoCargado.position = new THREE.Vector3(0,0,0);
+                objetoCargado.position.z=-550;
+                objetoCargado.position.x=10;
+                objetoCargado.scale.x=2;
+                objetoCargado.scale.y=2;
+                objetoCargado.scale.z=2;
+                QuitarPuntos.modelo=objetoCargado.clone();
+                modeloCargadoQuitarPuntos=true;
+                scene.add(QuitarPuntos.modelo);
+		    });
+        }
         loadOBJWithMTL('/assets/Objetos/Cosmo Shield/',"Shield.obj",
             "Shield.mtl",(objetoCargado)=>{
             objetoCargado.position = new THREE.Vector3(0,0,0);
@@ -106,18 +120,7 @@
             modeloCargadoInvencibilidad=true;
             scene.add(invencibilidad.modelo);
 		});
-        loadOBJWithMTL('/assets/Objetos/Cosmo Shield/',"ShieldBad.obj",
-            "ShieldBad.mtl",(objetoCargado)=>{
-            objetoCargado.position = new THREE.Vector3(0,0,0);
-            objetoCargado.position.z=-550;
-            objetoCargado.position.x=10;
-            objetoCargado.scale.x=2;
-            objetoCargado.scale.y=2;
-            objetoCargado.scale.z=2;
-            QuitarPuntos.modelo=objetoCargado.clone();
-            modeloCargadoQuitarPuntos=true;
-            scene.add(QuitarPuntos.modelo);
-		});
+        
         loadOBJWithMTL('/assets/Objetos/Red Orb/',"Red Orb.obj",
             "Red Orb.mtl",(objetoCargado)=>{
             objetoCargado.position = new THREE.Vector3(0,0,0);
@@ -223,7 +226,7 @@
                 toggle();
             }
           });
-        
+          
         render();
 
 		document.addEventListener('keydown', onKeyDown);
@@ -355,60 +358,87 @@
         });
 
         //colision bonus
-        bonus.forEach(element => {
+        if(modoJuego=="Puntos"){
+            bonus.forEach(element => {
             
-            var ElementBB = new THREE.Box3().setFromObject(element);
-
-            var collision = Jugador1BB.intersectsBox(ElementBB);
-            var collision2 = Jugador2BB.intersectsBox(ElementBB);
-
-            if (collision) {
-                audioBonus.currentTime=0.3;
-                audioBonus.volume=localStorage.getItem("RangeEfects")/10;
-                audioBonus.play();
-                if(jugador1.puntosDobles){
-                    jugador1.puntuacion+=element.userData.price*2;
+                var ElementBB = new THREE.Box3().setFromObject(element);
+    
+                var collision = Jugador1BB.intersectsBox(ElementBB);
+                var collision2 = Jugador2BB.intersectsBox(ElementBB);
+    
+                if (collision) {
+                    audioBonus.currentTime=0.3;
+                    audioBonus.volume=localStorage.getItem("RangeEfects")/10;
+                    audioBonus.play();
+                    if(jugador1.puntosDobles){
+                        jugador1.puntuacion+=element.userData.price*2;
+                    }
+                    else{
+                        jugador1.puntuacion+=element.userData.price;
+                    }
+                   
+                    divScore.innerText= jugador1.puntuacion;
+                    scene.remove(element);
                 }
-                else{
-                    jugador1.puntuacion+=element.userData.price;
+                if(collision2){
+                    audioBonus.currentTime=0.3;
+                    audioBonus.volume=localStorage.getItem("RangeEfects")/10;
+                    audioBonus.play();
+                    if(jugador2.puntosDobles){
+                        jugador2.puntuacion+=element.userData.price*2;
+                    }
+                    else{
+                        jugador2.puntuacion+=element.userData.price;
+                    }
+                    divScore2.innerText= jugador2.puntuacion;
+                    scene.remove(element);
                 }
-               
-                divScore.innerText= jugador1.puntuacion;
-                scene.remove(element);
-            }
-            if(collision2){
-                audioBonus.currentTime=0.3;
-                audioBonus.volume=localStorage.getItem("RangeEfects")/10;
-                audioBonus.play();
-                if(jugador2.puntosDobles){
-                    jugador2.puntuacion+=element.userData.price*2;
-                }
-                else{
-                    jugador2.puntuacion+=element.userData.price;
-                }
-                divScore2.innerText= jugador2.puntuacion;
-                scene.remove(element);
-            }
-        });
+            });
+        }
+        
 
         //colision puntos dobles
-       if(modeloCargadoPuntosDobles){
-            var ElementBBx2 = new THREE.Box3().setFromObject(puntosDobles.modelo);    
-            var collisionx2 = Jugador1BB.intersectsBox(ElementBBx2);
-            var collision2x2 = Jugador2BB.intersectsBox(ElementBBx2);
-            if(collisionx2){
-                audioBonusx2.volume=localStorage.getItem("RangeEfects")/10;
-                audioBonusx2.play();
-                jugador1.puntosDobles=true;
-                scene.remove(puntosDobles.modelo);
-                //alert('jugador1');
-            }
-            if(collision2x2){
-                audioBonusx2.volume=localStorage.getItem("RangeEfects")/10;
-                audioBonusx2.play();
-                jugador2.puntosDobles=true;
-                scene.remove(puntosDobles.modelo);
-                //alert('jugador2');
+        if(modoJuego=="Puntos"){
+            if(modeloCargadoPuntosDobles){
+                    var ElementBBx2 = new THREE.Box3().setFromObject(puntosDobles.modelo);    
+                    var collisionx2 = Jugador1BB.intersectsBox(ElementBBx2);
+                    var collision2x2 = Jugador2BB.intersectsBox(ElementBBx2);
+                    if(collisionx2){
+                        audioBonusx2.volume=localStorage.getItem("RangeEfects")/10;
+                        audioBonusx2.play();
+                        jugador1.puntosDobles=true;
+                        scene.remove(puntosDobles.modelo);
+                        //alert('jugador1');
+                    }
+                    if(collision2x2){
+                        audioBonusx2.volume=localStorage.getItem("RangeEfects")/10;
+                        audioBonusx2.play();
+                        jugador2.puntosDobles=true;
+                        scene.remove(puntosDobles.modelo);
+                        //alert('jugador2');
+                    }
+                }
+
+            if(modeloCargadoQuitarPuntos){
+                var ElementBBQuitar = new THREE.Box3().setFromObject(QuitarPuntos.modelo);    
+                var collisionQuitar = Jugador1BB.intersectsBox(ElementBBQuitar);
+                var collision2Quitar = Jugador2BB.intersectsBox(ElementBBQuitar);
+                if(collisionQuitar){
+                    audioPerjudica.volume=localStorage.getItem("RangeEfects")/10;
+                    audioPerjudica.play();
+                    jugador1.puntuacion=0;
+                    divScore.innerText= jugador1.puntuacion;
+                    scene.remove(invencibilidad.modelo);
+                    //alert('jugador1');
+                }
+                if(collision2Quitar){
+                    audioPerjudica.volume=localStorage.getItem("RangeEfects")/10;
+                    audioPerjudica.play();
+                    jugador2.puntuacion=0;
+                    divScore2.innerText= jugador2.puntuacion;
+                    scene.remove(invencibilidad.modelo);
+                    //alert('jugador2');
+                }
             }
         }
 
@@ -428,28 +458,6 @@
                 audioBonusEscudo.volume=localStorage.getItem("RangeEfects")/10;
                 audioBonusEscudo.currentTime=0.3;
                 jugador2.invencibilidad=true;
-                scene.remove(invencibilidad.modelo);
-                //alert('jugador2');
-            }
-        }
-
-        if(modeloCargadoQuitarPuntos){
-            var ElementBBQuitar = new THREE.Box3().setFromObject(QuitarPuntos.modelo);    
-            var collisionQuitar = Jugador1BB.intersectsBox(ElementBBQuitar);
-            var collision2Quitar = Jugador2BB.intersectsBox(ElementBBQuitar);
-            if(collisionQuitar){
-                audioPerjudica.volume=localStorage.getItem("RangeEfects")/10;
-                audioPerjudica.play();
-                jugador1.puntuacion=0;
-                divScore.innerText= jugador1.puntuacion;
-                scene.remove(invencibilidad.modelo);
-                //alert('jugador1');
-            }
-            if(collision2Quitar){
-                audioPerjudica.volume=localStorage.getItem("RangeEfects")/10;
-                audioPerjudica.play();
-                jugador2.puntuacion=0;
-                divScore2.innerText= jugador2.puntuacion;
                 scene.remove(invencibilidad.modelo);
                 //alert('jugador2');
             }
@@ -484,6 +492,7 @@
 	}
 
 	function setupScene() {	
+        
         divGameOverPanel=document.getElementById('game-over-panel');
         divGameOverPanel.style.display='none'
         gameoverPlayerWins=document.getElementById('game-overPlayerWins');
@@ -552,13 +561,15 @@
         // jugador1.invencibilidad=true;
         jugador2.invencibilidad=true;
 
+        if(modoJuego=="Puntos"){
+            for(let i=0; i<85;i++){
+                this._spawnBonus(-gridLimit*2, divisions%80);
+            }
+        }
         for(let i=0; i<30;i++){
             this._spawnObstacle(-gridLimit*2, divisions%80);
         }
-
-        for(let i=0; i<85;i++){
-            this._spawnBonus(-gridLimit*2, divisions%80);
-        }
+        
         pantallaPausa=document.getElementById('pantallaPausa')
 		$("#scene-section").append(renderers[0].domElement);
 		$("#scene-section2").append(renderers[1].domElement);

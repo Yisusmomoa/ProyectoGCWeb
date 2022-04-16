@@ -35,7 +35,7 @@ window.onload=function(){
   var nivelSeleccionado3=document.getElementById('inlineCheckbox3');
   
   var dificultad;
-  
+  var modoJuego;
   btnPlayerSolo.addEventListener('click',()=>{
     debugger;
     if(document.getElementById('flexRadioDefault1').checked){
@@ -68,6 +68,7 @@ window.onload=function(){
   
   btnMultiPlayer.addEventListener('click',()=>{
     debugger;
+    //Dificultad
     if(document.getElementById('flexRadioDefault1').checked){
       dificultad=document.getElementById('flexRadioDefault1').value;
       localStorage.setItem("Dificultad", dificultad);
@@ -76,6 +77,19 @@ window.onload=function(){
       dificultad=document.getElementById('flexRadioDefault2').value;
       localStorage.setItem("Dificultad", dificultad);
     }
+    //Dificultad
+
+    //Modo de juego
+    if(document.getElementById('flexRadioDefault3').checked){
+      modoJuego=document.getElementById('flexRadioDefault3').value;
+      localStorage.setItem("ModoJuego", modoJuego);
+    }
+    if(document.getElementById('flexRadioDefault4').checked){
+      modoJuego=document.getElementById('flexRadioDefault4').value;
+      localStorage.setItem("ModoJuego", modoJuego);
+    }
+    //Modo de juego
+
     // debugger;
     // console.log(dificultad)s
     if(nivelSeleccionado1.checked){
@@ -114,6 +128,7 @@ window.onload=function(){
 
   }, false);
 
+  
   //localStorage
   storageMusicLevel=localStorage.getItem("RangeMusic");
   document.getElementById("ValorMusica").innerText=storageMusicLevel;
